@@ -17,6 +17,7 @@ class CourierController extends Controller
     public function index()
     {
         $couriers = Courier::Paginate(10);
+
         return view('auth.couriers.index' ,compact('couriers'));
     }
 
@@ -41,6 +42,7 @@ class CourierController extends Controller
     public function store(CourierRequest $request)
     {
         Courier::create($request->all());
+
         return redirect()->route('couriers.index');
     }
 
@@ -75,11 +77,7 @@ class CourierController extends Controller
      */
     public function update(CourierRequest $request, Courier $courier)
     {
-
         $params = $request->all();
-
-
-
         $courier->update($params);
 
         return redirect()->route('couriers.index');
@@ -94,6 +92,7 @@ class CourierController extends Controller
     public function destroy(Courier $courier)
     {
         $courier->delete();
+
         return redirect()->route('couriers.index');
     }
 }

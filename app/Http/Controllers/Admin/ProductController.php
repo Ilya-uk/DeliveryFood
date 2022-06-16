@@ -21,9 +21,6 @@ class ProductController extends Controller
      */
     public function index(ProductFilterRequest $request)
     {
-
-
-
         $bestProductIds = Order::get()->where('status', 3)->map->products->flatten()->map->pivot->mapTogroups(function ($pivot) {
             return [$pivot->product_article => $pivot->count];
         })->map->sum()->sortDesc()->take(3)->keys()->toArray();

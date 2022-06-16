@@ -22,7 +22,7 @@
                     <label for="name" class="col-sm-2 col-form-label">Название: </label>
                     <div class="col-sm-6">
                         @error('name')
-                        <div class="alert alert-danger">{{$message}}</div>
+                        <div class="text-danger mx-auto col-12 ">{{$message}}</div>
                         @enderror
                         <input type="text" class="form-control" name="name" id="name" value="{{ old ('name')}} @isset($category) {{$category->name}} @endisset">
                     </div>

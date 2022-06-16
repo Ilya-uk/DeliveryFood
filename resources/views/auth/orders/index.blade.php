@@ -117,11 +117,11 @@
                     <div>
                         <span>C</span>
                         <label for="date_from">
-                            <input type="date" style="width:140px" class="form-control" name="date_from">
+                            <input type="date" class="form-control" name="date_from" required>
                         </label>
                         <span>По</span>
                         <label for="date_to">
-                            <input type="date" style="width:140px" class="form-control" name="date_to">
+                            <input type="date" class="form-control" name="date_to" required>
                         </label>
                     </div>
                     <button type="submit" href="{{route('admin-word',$orders) }}" class="btn btn-md btn-success">

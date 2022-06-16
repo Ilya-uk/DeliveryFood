@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
-
 use PhpOffice\PhpWord\Element\Table;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -25,8 +24,6 @@ class OrderController extends Controller
     {
         $ordersQuery = Order::query();
 
-
-
         if ($request->filled('price_from')) {
             $ordersQuery->where('summa', '>=', $request->price_from);
         }
@@ -34,13 +31,15 @@ class OrderController extends Controller
         if ($request->filled('price_to')) {
             $ordersQuery->where('summa', '<=', $request->price_to);
         }
+
         if ($request->filled('status')) {
             $ordersQuery->where('status', '=', $request->status);
         }
+
         $orders = $ordersQuery->OrderBy('id', 'DESC')->whereIn('status', [1, 2, 3, 4])
             ->Paginate(5)->withPath($request->getUri());
-        return view('auth.orders.index', compact('orders'));
 
+        return view('auth.orders.index', compact('orders'));
 
     }
 
@@ -94,36 +93,19 @@ class OrderController extends Controller
     public function wordAdminExport(Request $request)
     {
         $templateProcessor = new TemplateProcessor('word-template/admin.docx');
-        $firstOrder = Order::where('status', 3)->first()->created_at;
         $dateFirst = date('d.m.Y', strtotime($request->date_from));
         $dateLast = date('d.m.Y', strtotime($request->date_to));
+
         if ($request->filled('date_from') && $request->filled('date_to')) {
             $orders = Order::whereBetween('created_at', [$request->date_from, $request->date_to . ' 23:59:59'])->get();
             $templateProcessor->setValue('first_date', $dateFirst);
             $templateProcessor->setValue('last_date', $dateLast);
         }
 
-        if (!$request->filled('date_from') && $request->filled('date_to')) {
-            $orders = Order::whereBetween('created_at', [$firstOrder, $request->date_to . ' 23:59:59'])->get();
-            $templateProcessor->setValue('first_date', $orders->where('status', 3)->first()->created_at->format('d.m.Y'));
-            $templateProcessor->setValue('last_date', $dateLast);
-        }
-
-        if ($request->filled('date_from') && !$request->filled('date_to')) {
-            $orders = Order::whereBetween('created_at', [$request->date_from, Carbon::now()])->get();
-            $templateProcessor->setValue('first_date', $dateFirst);
-            $templateProcessor->setValue('last_date', Carbon::now()->format('d.m.Y'));
-        }
-
-        if (!$request->filled('date_from') && !$request->filled('date_to')) {
-            $orders = Order::all();
-            $templateProcessor->setValue('first_date', $orders->where('status', 3)->first()->created_at->format('d.m.Y'));
-            $templateProcessor->setValue('last_date', Carbon::now()->format('d.m.Y'));
-        }
-
         if (!empty(Auth::user()->name)) {
             $templateProcessor->setValue('user', Auth::user()->name);
         }
+
         $templateProcessor->setValue('date_now', Carbon::now()->format('d.m.Y'));
 
         $styleFont = array('size' => 12, 'name' => 'Times New Roman');
@@ -143,6 +125,7 @@ class OrderController extends Controller
         $i = 0;
         $sum = 0;
         $countOrders = 0;
+
         foreach ($orders as $order) {
             if ($order->status == 3) {
                 $table->addRow();
@@ -159,6 +142,7 @@ class OrderController extends Controller
                 $i++;
             }
         }
+
         if ($countOrders >= 1) {
             $templateProcessor->setValue('sum', $sum . '₽');
             $templateProcessor->setComplexBlock('table', $table);

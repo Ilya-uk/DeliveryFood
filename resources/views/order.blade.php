@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="container text-center bg-light mt-5 p-4 col-md-5 rounded-3">
-        <h1>Потвердите заказ:</h1>
+        <h1>Подтвердите заказ:</h1>
         <div class="row justify-content-center">
             <p>Общая стоимость заказа: <b>{{$order->getFullPrice()}} ₽</b></p>
             <form action="{{ route('basket-confirm') }}" method="post">
@@ -185,7 +185,7 @@
                     </div>
                     <br>
                     @csrf
-                    <input type="submit" class="btn btn-success col-lg-3" value="Потвердить заказ">
+                    <input type="submit" class="btn btn-success col-lg-3" value="Подтвердить заказ">
                 </div>
             </form>
         </div>

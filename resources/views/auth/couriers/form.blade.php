@@ -24,7 +24,7 @@
                 <label for="name" class="col-sm-3 col-form-label">Имя: </label>
                 <div class="col-sm-6">
                     @error('name')
-                    <div class="alert alert-danger">{{$message}}</div>
+                    <div class="text-danger mx-auto col-12 ">{{$message}}</div>
                     @enderror
                     <input type="text" class="form-control" name="name" id="name"
                            value="@isset($courier) {{$courier->name}}@endisset">
@@ -35,7 +35,7 @@
                 <label for="phone" class="col-sm-3 col-form-label">Номер телефона: </label>
                 <div class="col-sm-6">
                     @error('phone')
-                    <div class="alert alert-danger">{{$message}}</div>
+                    <div class="text-danger mx-auto col-12 ">{{$message}}</div>
                     @enderror
                     <input type="tel" class="tel form-control" name="phone" id="phone"
                            value="@isset($courier) {{$courier->phone}}@endisset">

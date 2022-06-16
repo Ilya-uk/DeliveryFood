@@ -16,7 +16,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::withTrashed()->Paginate(5);;
+        $categories = Category::withTrashed()->Paginate(5);
 
         return view('auth.categories.index', compact('categories'));
     }
@@ -40,6 +40,7 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
         Category::create($request->all());
+
         return redirect()->route('categories.index');
     }
 
@@ -75,6 +76,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $category->update($request->all());
+
         return redirect()->route('categories.index');
 
     }
@@ -88,6 +90,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
+
         return back();
 
     }
@@ -96,6 +99,7 @@ class CategoryController extends Controller
     {
         $category = Category::onlyTrashed()->findOrFail($id);
         $category->restore();
+
         return back();
     }
 
